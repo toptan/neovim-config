@@ -110,6 +110,42 @@ return {
       function()
         Snacks.picker.files({ cwd = "~/.config/nvim" })
       end,
+      desc = "Neovim [c]config files",
+    },
+    {
+      "<leader>fP",
+      function()
+        Snacks.picker.pick()
+      end,
+      desc = "Snacks [P]ickers",
+    },
+    {
+      "<leader>fp",
+      function()
+        Snacks.picker.projects()
+      end,
+      desc = "Recent [p]rojects",
+    },
+    {
+      "<leader>sh",
+      function()
+        Snacks.picker.help()
+      end,
+      desc = "[H]elp",
+    },
+    {
+      "<leader>sk",
+      function()
+        Snacks.picker.keymaps()
+      end,
+      desc = "[K]eymaps",
+    },
+    {
+      "<leader>st",
+      function()
+        Snacks.picker.todo_comments()
+      end,
+      desc = "[T]odo comments",
     },
   },
 }
