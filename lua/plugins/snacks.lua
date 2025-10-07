@@ -11,6 +11,14 @@ return {
     dim = { enabled = false }, -- TODO: Revisit this
     explorer = { enabled = false }, -- TODO: Revisit this
     git = { enabled = true },
+    gitbrowse = { enabled = false },
+    image = { enabled = false },
+    indent = { enabled = true, animate = { enabled = false } },
+    input = { enabled = true },
+    layout = { enabled = false },
+    lazygit = { enabled = true },
+    notifier = { enabled = false },
+    picker = { enabled = true, layout = { cycle = false } },
   },
   keys = {
     {
@@ -47,6 +55,61 @@ return {
         Snacks.git.blame_line()
       end,
       desc = "[B]lame",
+    },
+    {
+      "<leader>gl",
+      function()
+        Snacks.lazygit.log()
+      end,
+      desc = "[L]og",
+    },
+    {
+      "<leader>gf",
+      function()
+        Snacks.lazygit.log_file()
+      end,
+      desc = "Log for current [F]ile",
+    },
+    {
+      "<leader>gg",
+      function()
+        Snacks.lazygit.open()
+      end,
+      desc = "Lazy[G]it",
+    },
+    {
+      "<leader><leader>",
+      function()
+        Snacks.picker.buffers()
+      end,
+      desc = "List buffers",
+    },
+    {
+      "<leader>cd",
+      function()
+        Snacks.picker.diagnostics_buffer()
+      end,
+      desc = "Buffer [d]iagnostics",
+    },
+    {
+      "<leader>cD",
+      function()
+        Snacks.picker.diagnostics()
+      end,
+      desc = "Workspace [D]iagnostics",
+    },
+    {
+      "<leader>ff",
+      function()
+        Snacks.picker.files()
+      end,
+      desc = "[F]iles",
+    },
+    {
+      "<leader>fc",
+      function()
+        Snacks.picker.files({ cwd = "~/.config/nvim" })
+      end,
     },
   },
 }
