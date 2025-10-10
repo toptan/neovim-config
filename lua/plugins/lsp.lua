@@ -1,3 +1,11 @@
+---@param client vim.lsp.Client
+---@param method vim.lsp.protocol.Method
+---@param bufnr? integer some lsp support methods only in specific files
+---@return boolean
+local function client_supports_method(client, method, bufnr)
+  return client:supports_method(method, bufnr)
+end
+
 local function create_keymaps(event)
   local map = function(keys, func, desc, mode)
     mode = mode or "n"
@@ -33,7 +41,6 @@ local function create_keymaps(event)
   -- Execute a code action, usually your cursor needs to be on top of an error
   -- or a suggestion from your LSP for this to activate.
   -- map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
-
 end
 
 local function setup_highlight_references_under_cursor(event)
@@ -43,7 +50,7 @@ local function setup_highlight_references_under_cursor(event)
   --
   -- When you move your cursor, the highlights will be cleared (the second autocommand).
   local client = vim.lsp.get_client_by_id(event.data.client_id)
-  if client then
+  if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
     local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       buffer = event.buf,
@@ -81,7 +88,7 @@ local function setup_inlay_hints(event)
   -- code, if the language server you are using supports them
   --
   -- This may be unwanted, since they displace some of your code
-  if client then
+  if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
     map("<leader>th", function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
     end, "Inlay [H]ints")
@@ -111,6 +118,7 @@ return {
     })
 
     local servers = {
+      "clangd",
       "lua_ls",
       "neocmake",
     }
